@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { InfoDialog } from "./components/InfoDialog";
 import { InfoIcon, ShieldIcon } from "./components/Icons";
 import { ResultsPanel } from "./components/ResultsPanel";
@@ -12,22 +12,22 @@ import {
   estimateEmployerSocialInsurance,
   estimateSocialInsurance,
   getSocialSecurityPolicy,
-  type SocialInsuranceMode,
 } from "./domain/socialSecurity";
 import { estimateHousingFund, getHousingFundPolicy } from "./domain/housingFund";
 
 const INITIAL_VALUES: SalaryInput = {
-  monthlyGross: 35_000,
+  monthlyGross: 75_000,
   monthlySocialInsurance: 3_500,
   monthlyHousingFund: 2_100,
-  monthlySpecialDeduction: 2_000,
+  monthlySpecialDeduction: 0,
   months: 12,
-  yearEndBonusMonths: 0,
+  yearEndBonusMonths: 3,
+  extraIncentive: 0,
   bonusTaxMode: "separate",
 };
 
 const INITIAL_POLICY_ID = "shanghai";
-const INITIAL_CONTRIBUTION_WAGE = 35_000;
+const INITIAL_CONTRIBUTION_WAGE = 75_000;
 const INITIAL_HOUSING_FUND_RATE = 0.12;
 const INITIAL_EMPLOYER_HOUSING_FUND_RATE = 0.12;
 const INITIAL_SOCIAL_ESTIMATE = estimateSocialInsurance(
@@ -60,7 +60,6 @@ const INITIAL_EMPLOYER_COST = {
 
 function App() {
   const [draft, setDraft] = useState<SalaryInput>(INITIAL_VALUES);
-  const [socialMode, setSocialMode] = useState<SocialInsuranceMode>("auto");
   const [policyId, setPolicyId] = useState(INITIAL_POLICY_ID);
   const [contributionWage, setContributionWage] = useState(INITIAL_CONTRIBUTION_WAGE);
   const [housingFundRate, setHousingFundRate] = useState(INITIAL_HOUSING_FUND_RATE);
@@ -88,29 +87,33 @@ function App() {
   );
   const effectiveInput: SalaryInput = {
     ...draft,
-    monthlySocialInsurance:
-      socialMode === "auto" ? socialEstimate.total : draft.monthlySocialInsurance,
-    monthlyHousingFund:
-      socialMode === "auto" ? housingFundEstimate.personalAmount : draft.monthlyHousingFund,
+    monthlySocialInsurance: socialEstimate.total,
+    monthlyHousingFund: housingFundEstimate.personalAmount,
   };
 
-  const calculate = () => {
+  useEffect(() => {
     const validationError =
       !Number.isFinite(contributionWage) || contributionWage <= 0
         ? "请输入大于 0 的上年度月平均工资。"
         : validateSalaryInput(effectiveInput);
     setError(validationError);
     if (validationError) return;
+
     setResult(calculateSalary(effectiveInput));
     setEmployerCost({
       monthlySocialInsurance: employerSocialEstimate.total,
       monthlyHousingFund: employerHousingFundEstimate.personalAmount,
     });
-  };
+  }, [
+    contributionWage,
+    draft,
+    employerHousingFundRate,
+    housingFundRate,
+    policyId,
+  ]);
 
   const reset = () => {
     setDraft(INITIAL_VALUES);
-    setSocialMode("auto");
     setPolicyId(INITIAL_POLICY_ID);
     setContributionWage(INITIAL_CONTRIBUTION_WAGE);
     setHousingFundRate(INITIAL_HOUSING_FUND_RATE);
@@ -141,25 +144,33 @@ function App() {
           values={draft}
           error={error}
           onChange={setDraft}
-          onSubmit={calculate}
           onReset={reset}
-          socialMode={socialMode}
           policy={policy}
           housingFundPolicy={housingFundPolicy}
           contributionWage={contributionWage}
-          socialEstimate={socialEstimate}
-          employerSocialEstimate={employerSocialEstimate}
           housingFundEstimate={housingFundEstimate}
           employerHousingFundEstimate={employerHousingFundEstimate}
           housingFundRate={housingFundEstimate.rate}
           employerHousingFundRate={employerHousingFundEstimate.rate}
-          onSocialModeChange={setSocialMode}
           onPolicyChange={setPolicyId}
           onContributionWageChange={setContributionWage}
           onHousingFundRateChange={setHousingFundRate}
           onEmployerHousingFundRateChange={setEmployerHousingFundRate}
         />
-        <ResultsPanel result={result} employerCost={employerCost} />
+        <ResultsPanel
+          result={result}
+          employerCost={employerCost}
+          contributionDetails={{
+            policy,
+            socialEstimate,
+            employerSocialEstimate,
+            housingFundPolicy,
+            housingFundEstimate,
+            employerHousingFundEstimate,
+            housingFundRate: housingFundEstimate.rate,
+            employerHousingFundRate: employerHousingFundEstimate.rate,
+          }}
+        />
       </main>
 
       <footer className="page-footer">

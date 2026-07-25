@@ -9,6 +9,7 @@ export interface SalaryInput {
   monthlySpecialDeduction: number;
   months: number;
   yearEndBonusMonths: number;
+  extraIncentive: number;
   bonusTaxMode: BonusTaxMode;
 }
 
@@ -22,6 +23,7 @@ export interface MonthlySalaryRow {
   month: number;
   gross: number;
   bonus: number;
+  extraIncentive: number;
   socialInsurance: number;
   housingFund: number;
   specialDeduction: number;
@@ -43,6 +45,7 @@ export interface SalaryResult {
   bonusNet: number;
   bonusTaxRate: number;
   bonusTaxMode: BonusTaxMode;
+  extraIncentiveGross: number;
 }
 
 export const TAX_BRACKETS: TaxBracket[] = [
@@ -96,15 +99,18 @@ export function calculateAnnualBonusTax(bonusIncome: number): number {
 export function calculateSalary(input: SalaryInput): SalaryResult {
   let cumulativeTaxPaid = 0;
   const bonusGross = roundCurrency(input.monthlyGross * input.yearEndBonusMonths);
+  const extraIncentiveGross = roundCurrency(input.extraIncentive);
   const separateBonusTax =
     input.bonusTaxMode === "separate" ? calculateAnnualBonusTax(bonusGross) : 0;
 
   const rows = Array.from({ length: input.months }, (_, index): MonthlySalaryRow => {
     const month = index + 1;
+    const isFinalMonth = month === input.months;
     const isBonusMonth = month === input.months && bonusGross > 0;
     const bonus = isBonusMonth ? bonusGross : 0;
+    const extraIncentive = isFinalMonth ? extraIncentiveGross : 0;
     const combinedBonus = isBonusMonth && input.bonusTaxMode === "combined" ? bonusGross : 0;
-    const cumulativeGross = input.monthlyGross * month + combinedBonus;
+    const cumulativeGross = input.monthlyGross * month + combinedBonus + extraIncentive;
     const cumulativeDeductions =
       (MONTHLY_BASIC_DEDUCTION +
         input.monthlySocialInsurance +
@@ -121,13 +127,19 @@ export function calculateSalary(input: SalaryInput): SalaryResult {
     cumulativeTaxPaid = cumulativeTax;
 
     const net = roundCurrency(
-      input.monthlyGross + bonus - input.monthlySocialInsurance - input.monthlyHousingFund - tax,
+      input.monthlyGross +
+        bonus +
+        extraIncentive -
+        input.monthlySocialInsurance -
+        input.monthlyHousingFund -
+        tax,
     );
 
     return {
       month,
       gross: input.monthlyGross,
       bonus,
+      extraIncentive,
       socialInsurance: input.monthlySocialInsurance,
       housingFund: input.monthlyHousingFund,
       specialDeduction: input.monthlySpecialDeduction,
@@ -139,28 +151,33 @@ export function calculateSalary(input: SalaryInput): SalaryResult {
   });
 
   const totalGross = roundCurrency(rows.reduce((sum, row) => sum + row.gross, 0));
-  const totalGrossWithBonus = roundCurrency(totalGross + bonusGross);
+  const totalGrossWithVariablePay = roundCurrency(
+    totalGross + bonusGross + extraIncentiveGross,
+  );
   const totalTax = roundCurrency(rows.reduce((sum, row) => sum + row.tax, 0));
   const totalSocialAndHousing = roundCurrency(
     rows.reduce((sum, row) => sum + row.socialInsurance + row.housingFund, 0),
   );
   const totalNet = roundCurrency(rows.reduce((sum, row) => sum + row.net, 0));
-  const salaryTaxWithoutBonus = calculateCumulativeTax(
+  const salaryAndIncentiveTaxWithoutBonus = calculateCumulativeTax(
     Math.max(
       0,
-      input.monthlyGross * input.months -
+      input.monthlyGross * input.months +
+        extraIncentiveGross -
         (MONTHLY_BASIC_DEDUCTION +
           input.monthlySocialInsurance +
           input.monthlyHousingFund +
           input.monthlySpecialDeduction) *
-          input.months,
+      input.months,
     ),
   );
-  const bonusTax = roundCurrency(Math.max(0, totalTax - salaryTaxWithoutBonus));
+  const bonusTax = roundCurrency(
+    Math.max(0, totalTax - salaryAndIncentiveTaxWithoutBonus),
+  );
 
   return {
     rows,
-    totalGross: totalGrossWithBonus,
+    totalGross: totalGrossWithVariablePay,
     totalTax,
     totalSocialAndHousing,
     totalNet,
@@ -175,6 +192,7 @@ export function calculateSalary(input: SalaryInput): SalaryResult {
           ? bonusTax / bonusGross
           : 0,
     bonusTaxMode: input.bonusTaxMode,
+    extraIncentiveGross,
   };
 }
 
@@ -202,6 +220,10 @@ export function validateSalaryInput(input: SalaryInput): string | null {
 
   if (!Number.isFinite(input.yearEndBonusMonths) || input.yearEndBonusMonths < 0) {
     return "年终奖月数不能为负数。";
+  }
+
+  if (!Number.isFinite(input.extraIncentive) || input.extraIncentive < 0) {
+    return "额外激励金额不能为负数。";
   }
 
   if (input.bonusTaxMode !== "separate" && input.bonusTaxMode !== "combined") {

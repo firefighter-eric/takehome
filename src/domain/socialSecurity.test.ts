@@ -62,4 +62,19 @@ describe("social insurance estimation", () => {
     expect(estimate.capStatus).toBe("ceiling");
     expect(estimate.total).toBe(9_489.92);
   });
+
+  it("uses Shanghai's latest published limits and current employer medical rate", () => {
+    const policy = getSocialSecurityPolicy("shanghai");
+    const personal = estimateSocialInsurance(policy, 75_000);
+    const employer = estimateEmployerSocialInsurance(policy, 75_000);
+
+    expect(policy.baseMin).toBe(7_460);
+    expect(policy.baseMax).toBe(37_302);
+    expect(policy.effectiveLabel).toContain("2026新限额待公布");
+    expect(policy.employerRates.medicalAndMaternity).toBe(0.09);
+    expect(personal.contributionBase).toBe(37_302);
+    expect(personal.total).toBe(3_916.71);
+    expect(employer.medicalAndMaternity).toBe(3_357.18);
+    expect(employer.total).toBe(9_586.61);
+  });
 });

@@ -5,6 +5,7 @@ export interface HousingFundPolicy {
   baseMax: number;
   rateMin: number;
   rateMax: number;
+  supplementaryRateMax?: number;
   effectiveLabel: string;
   sourceName: string;
   sourceUrl: string;
@@ -14,6 +15,8 @@ export interface HousingFundEstimate {
   contributionWage: number;
   contributionBase: number;
   rate: number;
+  ordinaryRate: number;
+  supplementaryRate: number;
   personalAmount: number;
   capStatus: "floor" | "within" | "ceiling";
 }
@@ -37,9 +40,10 @@ export const HOUSING_FUND_POLICIES: HousingFundPolicy[] = [
     baseMax: 37_302,
     rateMin: 0.05,
     rateMax: 0.07,
+    supplementaryRateMax: 0.05,
     effectiveLabel: "2025公积金年度",
     sourceName: "上海市公积金管理中心",
-    sourceUrl: "https://www.shzfgjj.cn/",
+    sourceUrl: "https://www.shzfgjj.cn/html/newxxgk/zcwj/gfxwj/228051.html",
   },
   {
     id: "guangzhou",
@@ -247,7 +251,9 @@ export function getHousingFundPolicy(policyId: string): HousingFundPolicy {
 
 export function getHousingFundRateOptions(policy: HousingFundPolicy): number[] {
   const minPercent = Math.round(policy.rateMin * 100);
-  const maxPercent = Math.round(policy.rateMax * 100);
+  const maxPercent = Math.round(
+    (policy.rateMax + (policy.supplementaryRateMax ?? 0)) * 100,
+  );
   return Array.from({ length: maxPercent - minPercent + 1 }, (_, index) =>
     (minPercent + index) / 100,
   );
@@ -261,12 +267,17 @@ export function estimateHousingFund(
   const safeWage = Number.isFinite(contributionWage) ? Math.max(0, contributionWage) : 0;
   const contributionBase = Math.min(policy.baseMax, Math.max(policy.baseMin, safeWage));
   const safeRate = Number.isFinite(requestedRate) ? requestedRate : policy.rateMin;
-  const rate = Math.min(policy.rateMax, Math.max(policy.rateMin, safeRate));
+  const totalRateMax = policy.rateMax + (policy.supplementaryRateMax ?? 0);
+  const rate = Math.min(totalRateMax, Math.max(policy.rateMin, safeRate));
+  const ordinaryRate = Math.min(policy.rateMax, rate);
+  const supplementaryRate = Math.max(0, rate - ordinaryRate);
 
   return {
     contributionWage: safeWage,
     contributionBase,
     rate,
+    ordinaryRate,
+    supplementaryRate,
     personalAmount: Math.round(contributionBase * rate),
     capStatus:
       safeWage < policy.baseMin
