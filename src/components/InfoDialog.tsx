@@ -59,7 +59,8 @@ export function InfoDialog({ open, onClose }: InfoDialogProps) {
           <section>
             <h3>计算口径</h3>
             <p>
-              每月累计应税收入 = 累计税前工资 − 每月 ¥{amount.format(MONTHLY_BASIC_DEDUCTION)}
+              每月累计应税收入 = 累计税前工资与并入综合所得的额外激励 − 每月 ¥
+              {amount.format(MONTHLY_BASIC_DEDUCTION)}
               基本减除费用 − 累计个人社保、公积金与专项附加扣除。
             </p>
             <p>
@@ -103,6 +104,9 @@ export function InfoDialog({ open, onClose }: InfoDialogProps) {
               奖金个税 = 年终奖 × 税率 − 速算扣除数；也可选择并入当年综合所得。
               当前政策执行至 2027 年 12 月 31 日，单独计税优惠在一个纳税年度内通常只允许使用一次。
               本计算器不会在奖金发放月重复扣一份社保、公积金，但奖金可能影响下一年度缴费基数。
+            </p>
+            <p>
+              额外激励按一次性税前工资薪金在最后一个计薪月发放，并入综合所得，不使用年终奖单独计税优惠。
             </p>
             <div className="rate-table-scroll">
               <table className="rate-table">
@@ -237,8 +241,9 @@ export function InfoDialog({ open, onClose }: InfoDialogProps) {
                         ¥{amount.format(policy.baseMin)}–¥{amount.format(policy.baseMax)}
                       </td>
                       <td>
-                        均为 {Math.round(policy.rateMin * 100)}%–
-                        {Math.round(policy.rateMax * 100)}%
+                        {policy.supplementaryRateMax
+                          ? `普通各 ${Math.round(policy.rateMin * 100)}%–${Math.round(policy.rateMax * 100)}% + 补充各 1%–${Math.round(policy.supplementaryRateMax * 100)}%`
+                          : `均为 ${Math.round(policy.rateMin * 100)}%–${Math.round(policy.rateMax * 100)}%`}
                       </td>
                       <td>{policy.effectiveLabel}</td>
                     </tr>
@@ -249,10 +254,10 @@ export function InfoDialog({ open, onClose }: InfoDialogProps) {
           </section>
 
           <aside className="notice-box">
-            公司总成本 = 税前工资 + 公司社保 + 公司公积金，不含招聘、福利、残保金等其他用工成本。
+            公司总成本 = 税前工资、年终奖与额外激励 + 公司社保 + 公司公积金，不含招聘、福利、残保金等其他用工成本。
             自动社保采用单一代表性基数做综合估算；公积金比例需要按所在单位实际比例选择。
             部分城市不同险种基数并不完全一致，补充医疗、户籍或参保档次也可能改变实际金额。
-            需要精确结果时，请切换“手动填写”并按工资条录入社保和公积金。
+            实际缴费请以工资条和主管部门最终核定结果为准。
             计算结果仅供预算参考，不替代社保、税务申报或专业意见。
           </aside>
 

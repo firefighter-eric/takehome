@@ -15,6 +15,7 @@ const sampleInput: SalaryInput = {
   monthlySpecialDeduction: 2_000,
   months: 12,
   yearEndBonusMonths: 0,
+  extraIncentive: 0,
   bonusTaxMode: "separate",
 };
 
@@ -27,6 +28,7 @@ describe("calculateSalary", () => {
       monthlySpecialDeduction: 2_000,
       months: 1,
       yearEndBonusMonths: 0,
+      extraIncentive: 0,
       bonusTaxMode: "separate",
     });
 
@@ -56,6 +58,7 @@ describe("calculateSalary", () => {
       monthlySpecialDeduction: 0,
       months: 12,
       yearEndBonusMonths: 0,
+      extraIncentive: 0,
       bonusTaxMode: "separate",
     });
 
@@ -71,6 +74,7 @@ describe("calculateSalary", () => {
       monthlySpecialDeduction: 2_000,
       months: 3,
       yearEndBonusMonths: 0,
+      extraIncentive: 0,
       bonusTaxMode: "separate",
     });
 
@@ -108,6 +112,37 @@ describe("calculateSalary", () => {
     expect(result.totalNet).toBe(370_020);
     expect(result.rows[11].cumulativeTaxableIncome).toBe(338_800);
   });
+
+  it("adds a one-time extra incentive to comprehensive income in the final month", () => {
+    const result = calculateSalary({
+      ...sampleInput,
+      extraIncentive: 20_000,
+    });
+
+    expect(result.extraIncentiveGross).toBe(20_000);
+    expect(result.rows[10].extraIncentive).toBe(0);
+    expect(result.rows[11].extraIncentive).toBe(20_000);
+    expect(result.rows[11].cumulativeTaxableIncome).toBe(288_800);
+    expect(result.rows[11].tax).toBe(8_480);
+    expect(result.totalGross).toBe(440_000);
+    expect(result.totalTax).toBe(40_840);
+    expect(result.totalNet).toBe(331_960);
+  });
+
+  it("keeps separately taxed bonus tax isolated from extra incentive tax", () => {
+    const result = calculateSalary({
+      ...sampleInput,
+      yearEndBonusMonths: 2,
+      extraIncentive: 20_000,
+      bonusTaxMode: "separate",
+    });
+
+    expect(result.bonusTax).toBe(6_790);
+    expect(result.bonusNet).toBe(63_210);
+    expect(result.totalTax).toBe(47_630);
+    expect(result.totalNet).toBe(395_170);
+    expect(result.rows[11].tax).toBe(15_270);
+  });
 });
 
 describe("tax brackets", () => {
@@ -136,5 +171,6 @@ describe("validateSalaryInput", () => {
       }),
     ).toContain("不能超过");
     expect(validateSalaryInput({ ...sampleInput, yearEndBonusMonths: -1 })).toContain("不能为负");
+    expect(validateSalaryInput({ ...sampleInput, extraIncentive: -1 })).toContain("不能为负");
   });
 });

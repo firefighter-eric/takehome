@@ -28,12 +28,30 @@ describe("housing fund estimation", () => {
     expect(estimate.personalAmount).toBe(4_297);
   });
 
-  it("clamps rates to the local range and exposes valid choices", () => {
+  it("includes Shanghai supplementary fund in the selectable total rate", () => {
     const shanghai = getHousingFundPolicy("shanghai");
     const estimate = estimateHousingFund(shanghai, 20_000, 0.12);
 
-    expect(getHousingFundRateOptions(shanghai)).toEqual([0.05, 0.06, 0.07]);
-    expect(estimate.rate).toBe(0.07);
-    expect(estimate.personalAmount).toBe(1_400);
+    expect(getHousingFundRateOptions(shanghai)).toEqual([
+      0.05,
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1,
+      0.11,
+      0.12,
+    ]);
+    expect(estimate.rate).toBe(0.12);
+    expect(estimate.ordinaryRate).toBe(0.07);
+    expect(estimate.supplementaryRate).toBeCloseTo(0.05);
+    expect(estimate.personalAmount).toBe(2_400);
+  });
+
+  it("clamps Shanghai total rate at ordinary 7% plus supplementary 5%", () => {
+    const estimate = estimateHousingFund(getHousingFundPolicy("shanghai"), 35_000, 0.2);
+
+    expect(estimate.rate).toBeCloseTo(0.12);
+    expect(estimate.personalAmount).toBe(4_200);
   });
 });

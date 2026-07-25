@@ -1,5 +1,3 @@
-export type SocialInsuranceMode = "auto" | "manual";
-
 export interface SocialSecurityRates {
   pension: number;
   medical: number;
@@ -27,6 +25,7 @@ export interface SocialSecurityPolicy {
   fixedMedical: number;
   sourceName: string;
   sourceUrl: string;
+  baseNotice?: string;
   note?: string;
 }
 
@@ -86,18 +85,21 @@ export const SOCIAL_SECURITY_POLICIES: SocialSecurityPolicy[] = [
     baseMin: 7_460,
     baseMax: 37_302,
     baseLabel: "社保",
-    effectiveLabel: "2025年7月起",
+    effectiveLabel: "2025年7月起 · 2026新限额待公布",
     rates: { pension: 0.08, medical: 0.02, unemployment: 0.005 },
     employerRates: {
       pension: 0.16,
-      medicalAndMaternity: 0.1,
+      medicalAndMaternity: 0.09,
       unemployment: 0.005,
       injuryMin: 0.002,
       injuryMax: 0.019,
     },
     fixedMedical: 0,
     sourceName: "上海市人力资源和社会保障局",
-    sourceUrl: "https://rsj.sh.gov.cn/",
+    sourceUrl: "https://rsj.sh.gov.cn/tgsgg_17341/20250918/t0035_1435637.html",
+    baseNotice:
+      "2026社保年度新上下限待官方发布；当前暂按最近已公布的2025年度范围估算。",
+    note: "公司医疗保险按2026年3月起现行9%计入，含生育保险8.5%和地方附加医疗0.5%。",
   },
   {
     id: "guangzhou",
