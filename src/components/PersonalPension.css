@@ -1,0 +1,458 @@
+.pension-view {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 32px 40px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pension-view-heading h1 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 770;
+  letter-spacing: -0.02em;
+}
+
+.pension-view-heading > p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.pension-income-editor {
+  margin-top: 24px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.pension-income-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+}
+
+.pension-income-heading h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.pension-income-heading p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.pension-income-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 16px;
+  margin-top: 20px;
+}
+
+.pension-income-editor .field-unit {
+  min-width: 48px;
+  padding: 0 7px;
+}
+
+.pension-taxable-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+}
+
+.pension-taxable-summary dt {
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.pension-taxable-summary dt span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.pension-taxable-summary dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 730;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.pension-income-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.pension-income-heading button {
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.pension-income-heading button:hover:not(:disabled) {
+  background: var(--teal-soft);
+}
+
+.pension-income-heading button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pension-income-heading button:focus-visible {
+  outline: 3px solid rgba(217, 119, 87, 0.28);
+  outline-offset: 3px;
+}
+
+.pension-panel {
+  min-width: 0;
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.pension-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pension-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--teal-dark);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+}
+
+.pension-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.pension-badge {
+  flex-shrink: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.pension-intro,
+.pension-note {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.pension-inputs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.pension-panel .field-unit {
+  min-width: 38px;
+  padding: 0 7px;
+}
+
+.pension-panel .select-control {
+  padding-right: 20px;
+  font-size: 12px;
+}
+
+.pension-shortcuts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.pension-shortcuts > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.pension-shortcuts button {
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--teal-dark);
+  font-size: 11px;
+  cursor: pointer;
+  text-underline-offset: 3px;
+}
+
+.pension-shortcuts button:hover {
+  text-decoration: underline;
+}
+
+.pension-panel button:focus-visible,
+.pension-panel summary:focus-visible,
+.pension-panel a:focus-visible {
+  outline: 3px solid rgba(217, 119, 87, 0.28);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.pension-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.pension-metrics > div {
+  min-width: 0;
+}
+
+.pension-metrics dt {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pension-metrics dd {
+  margin: 8px 0 5px;
+  font-size: clamp(22px, 2.1vw, 30px);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.pension-metrics small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.pension-yield dd {
+  color: var(--teal-dark);
+}
+
+.pension-cashflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.pension-cashflow span,
+.pension-cashflow strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.pension-cashflow span {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.pension-cashflow strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.pension-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.pension-details summary {
+  width: fit-content;
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.pension-details a {
+  display: inline-block;
+  margin: 12px 14px 0 0;
+  color: var(--teal-dark);
+  font-size: 11px;
+  text-underline-offset: 3px;
+}
+
+.pension-investment {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pension-investment dl {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+}
+
+.pension-investment dt,
+.pension-calculation dt {
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.pension-investment dd,
+.pension-calculation dd {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.pension-calculation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin: 16px 0;
+}
+
+.pension-error {
+  margin: 14px 0 0;
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.pension-caution {
+  color: var(--danger);
+}
+
+@media (max-width: 1200px) {
+  .pension-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .pension-income-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .pension-view {
+    padding: 24px 16px;
+  }
+
+  .pension-view-heading h1 {
+    font-size: 23px;
+  }
+
+  .pension-income-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .pension-income-fields {
+    gap: 16px 12px;
+  }
+
+  .pension-income-editor .field-group label {
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .pension-income-editor .field-hint {
+    font-size: 9px;
+  }
+
+  .pension-income-editor .select-control {
+    font-size: 12px;
+  }
+
+  .pension-panel {
+    padding: 16px;
+    margin: 20px 0;
+  }
+
+  .pension-inputs {
+    gap: 14px 12px;
+  }
+
+  .pension-heading h2 {
+    font-size: 17px;
+  }
+
+  .pension-panel .field-group label {
+    min-height: 17px;
+    font-size: 11px;
+  }
+
+  .pension-panel .select-control {
+    font-size: 11px;
+    padding-left: 8px;
+  }
+
+  .pension-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+
+  .pension-metrics .pension-yield {
+    grid-column: 1 / -1;
+  }
+
+  .pension-yield dd {
+    font-size: 30px;
+  }
+
+  .pension-cashflow {
+    gap: 8px;
+  }
+
+  .pension-investment {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .pension-income-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pension-inputs > .field-group:nth-child(n + 3) {
+    grid-column: 1 / -1;
+  }
+}

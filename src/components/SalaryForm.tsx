@@ -10,6 +10,7 @@ import {
 } from "../domain/socialSecurity";
 import { InfoIcon } from "./Icons";
 import { NumericField } from "./NumericField";
+import { NumberInput } from "./NumberInput";
 
 const compactMoney = new Intl.NumberFormat("zh-CN", {
   maximumFractionDigits: 0,
@@ -31,10 +32,12 @@ interface SalaryFormProps {
   employerHousingFundEstimate: HousingFundEstimate;
   housingFundRate: number;
   employerHousingFundRate: number;
+  housingFundRatesSynced: boolean;
   onPolicyChange: (policyId: string) => void;
   onContributionWageChange: (value: number) => void;
   onHousingFundRateChange: (rate: number) => void;
   onEmployerHousingFundRateChange: (rate: number) => void;
+  onHousingFundRatesSyncedChange: (synced: boolean) => void;
 }
 
 export function SalaryForm({
@@ -49,10 +52,12 @@ export function SalaryForm({
   employerHousingFundEstimate,
   housingFundRate,
   employerHousingFundRate,
+  housingFundRatesSynced,
   onPolicyChange,
   onContributionWageChange,
   onHousingFundRateChange,
   onEmployerHousingFundRateChange,
+  onHousingFundRatesSyncedChange,
 }: SalaryFormProps) {
   const update = <Key extends keyof SalaryInput>(key: Key, value: SalaryInput[Key]) => {
     onChange({ ...values, [key]: value });
@@ -73,26 +78,26 @@ export function SalaryForm({
               onChange={(value) => update("monthlyGross", value)}
             />
             <div className="field-group housing-fund-field">
-              <label htmlFor="housing-fund-rate">
-                公积金
-                <span className="field-hint">
-                  {housingFundEstimate.supplementaryRate > 0 ||
-                  employerHousingFundEstimate.supplementaryRate > 0
-                    ? "含补充公积金 · 双方比例"
-                    : "个人金额 · 双方比例"}
-                </span>
-              </label>
+              <div className="housing-fund-label-row">
+                <label htmlFor="housing-fund-rate">公积金比例</label>
+                <label className="housing-fund-sync">
+                  <input
+                    type="checkbox"
+                    aria-label="同步个人与公司公积金比例"
+                    checked={housingFundRatesSynced}
+                    onChange={(event) => onHousingFundRatesSyncedChange(event.target.checked)}
+                  />
+                  <span>同步比例</span>
+                </label>
+              </div>
               <div
                 className="housing-fund-auto-control"
                 title={`${housingFundPolicy.city}公积金基数 ${compactMoney.format(housingFundEstimate.contributionBase)} 元，范围 ${compactMoney.format(housingFundPolicy.baseMin)}–${compactMoney.format(housingFundPolicy.baseMax)} 元${
                   housingFundEstimate.supplementaryRate > 0
                     ? `；个人普通 ${percent(housingFundEstimate.ordinaryRate)} + 补充 ${percent(housingFundEstimate.supplementaryRate)}`
                     : ""
-                }`}
+                }；个人月缴约 ${compactMoney.format(housingFundEstimate.personalAmount)} 元，公司月缴约 ${compactMoney.format(employerHousingFundEstimate.personalAmount)} 元`}
               >
-                <output aria-label="个人公积金自动计算金额">
-                  {compactMoney.format(housingFundEstimate.personalAmount)}
-                </output>
                 <select
                   id="housing-fund-rate"
                   aria-label="个人公积金个人缴存比例"
@@ -101,20 +106,22 @@ export function SalaryForm({
                 >
                   {getHousingFundRateOptions(housingFundPolicy).map((rate) => (
                     <option key={rate} value={rate}>
-                      个{Math.round(rate * 100)}%
+                      个人 {Math.round(rate * 100)}%
                     </option>
                   ))}
                 </select>
                 <select
                   aria-label="公司公积金缴存比例"
                   value={employerHousingFundRate}
+                  disabled={housingFundRatesSynced}
+                  title={housingFundRatesSynced ? "取消同步后可自定义公司比例" : undefined}
                   onChange={(event) =>
                     onEmployerHousingFundRateChange(Number(event.target.value))
                   }
                 >
                   {getHousingFundRateOptions(housingFundPolicy).map((rate) => (
                     <option key={rate} value={rate}>
-                      企{Math.round(rate * 100)}%
+                      公司 {Math.round(rate * 100)}%
                     </option>
                   ))}
                 </select>
@@ -200,31 +207,27 @@ export function SalaryForm({
                 )}`}
               >
                 <div>
-                  <input
+                  <NumberInput
                     id="months"
                     aria-label="计薪月份"
-                    type="number"
                     inputMode="numeric"
                     min="1"
                     max="12"
                     step="1"
                     value={values.months}
-                    onChange={(event) => update("months", Number(event.target.value))}
+                    onValueChange={(value) => update("months", value)}
                   />
                   <span aria-hidden="true">薪月</span>
                 </div>
                 <div>
-                  <input
+                  <NumberInput
                     id="year-end-bonus-months"
                     aria-label="年终奖月数"
-                    type="number"
                     inputMode="decimal"
                     min="0"
                     step="0.1"
                     value={values.yearEndBonusMonths}
-                    onChange={(event) =>
-                      update("yearEndBonusMonths", Number(event.target.value))
-                    }
+                    onValueChange={(value) => update("yearEndBonusMonths", value)}
                   />
                   <span aria-hidden="true">奖月</span>
                 </div>

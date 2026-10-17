@@ -11,16 +11,33 @@ interface NumericFieldProps {
   unit: string;
   onChange: (value: number) => void;
   hint?: string;
+  ariaLabel?: string;
 }
 
-function sanitizeNumber(value: string): string {
-  const sanitized = value.replace(/[^\d.]/g, "");
+export function sanitizeNumber(value: string): string {
+  const normalized = value.trim().replace(/\u2212/g, "-");
+  const sign = normalized.includes("-") ? "-" : "";
+  const sanitized = normalized.replace(/[^\d.]/g, "");
   const [whole = "", ...fractions] = sanitized.split(".");
-  if (fractions.length === 0) return whole;
-  return `${whole}.${fractions.join("").slice(0, 2)}`;
+  if (fractions.length === 0) return `${sign}${whole}`;
+  return `${sign}${whole}.${fractions.join("").slice(0, 2)}`;
 }
 
-export function NumericField({ id, label, value, unit, onChange, hint }: NumericFieldProps) {
+export function parseNumericDraft(value: string): number | null {
+  const sanitized = sanitizeNumber(value);
+  if (["", ".", "-", "-."].includes(sanitized)) return null;
+  return Number(sanitized);
+}
+
+export function NumericField({
+  id,
+  label,
+  value,
+  unit,
+  onChange,
+  hint,
+  ariaLabel,
+}: NumericFieldProps) {
   const [focused, setFocused] = useState(false);
   const [text, setText] = useState(inputFormatter.format(value));
 
@@ -37,21 +54,29 @@ export function NumericField({ id, label, value, unit, onChange, hint }: Numeric
       <div className="numeric-control">
         <input
           id={id}
+          aria-label={ariaLabel}
           value={text}
           inputMode="decimal"
           autoComplete="off"
           onFocus={(event) => {
             setFocused(true);
-            event.currentTarget.select();
+            if (value === 0) {
+              setText("");
+            } else {
+              event.currentTarget.select();
+            }
           }}
-          onBlur={() => {
+          onBlur={(event) => {
+            const nextValue = parseNumericDraft(event.currentTarget.value) ?? 0;
+            onChange(nextValue);
             setFocused(false);
-            setText(inputFormatter.format(value));
+            setText(inputFormatter.format(nextValue));
           }}
           onChange={(event) => {
             const next = sanitizeNumber(event.target.value);
             setText(next);
-            onChange(next === "" || next === "." ? 0 : Number(next));
+            const nextValue = parseNumericDraft(next);
+            if (nextValue !== null) onChange(nextValue);
           }}
         />
         <span className="field-unit" aria-hidden="true">

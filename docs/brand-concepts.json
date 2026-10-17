@@ -1,0 +1,39 @@
+{
+  "brand": "TakeHome",
+  "date": "2026-10-17",
+  "status": "User selected concept 02-home; integrated into the app header and browser icons.",
+  "selectedConcept": "02-home",
+  "exports": {
+    "header": "public/brand/takehome-logo.png",
+    "favicon": "public/brand/favicon.png",
+    "appleTouchIcon": "public/brand/apple-touch-icon.png",
+    "method": "Deterministic sips resampling of the selected original, preserving transparency."
+  },
+  "generator": "Built-in image_gen, transparent_background=true",
+  "preview": "/brand-preview.html",
+  "palette": [
+    "#DC6B45",
+    "#1F1E1A",
+    "#FFFEFA"
+  ],
+  "concepts": [
+    {
+      "id": "01-pocket",
+      "title": "收入归袋",
+      "asset": "public/brand-concepts/01-pocket.png",
+      "prompt": "Use case: logo-brand. Asset type: compact website logo symbol for TakeHome, a Chinese net salary calculator. Create one polished original symbol only, no text or lettering. Concept: \"income in your pocket\". A bold geometric terracotta orange pocket with a simple crisp white/transparent downward arrow entering its open top, integrating receiving income and keeping money. The pocket silhouette has softly rounded lower corners and an elegant shallow V-shaped opening. Strong distinctive simple negative space, balanced optical geometry. Flat vector-like graphic, single color #DC6B45, no gradients, no shadows, no texture, no 3D, no border container, no coins, no currency signs, no tiny detail, no illustration. Must remain highly legible as a 24px header mark or 16px favicon. Transparent background with genuine alpha, square canvas, one centered compact mark occupying approximately 78% of the square with balanced clear space. Do not render a checkerboard or any presentation board."
+    },
+    {
+      "id": "02-home",
+      "title": "安心到家",
+      "asset": "public/brand-concepts/02-home.png",
+      "prompt": "Use case: logo-brand. Asset type: compact website logo symbol for TakeHome, a Chinese net salary calculator. Create one polished original symbol only, no text or lettering. Concept: \"take your earnings home\". A warm minimal architectural home symbol: a bold single pitched roof and sturdy geometric house body, integrating an elegant simple checkmark as the doorway cutout, representing confirmed money you actually take home. Sophisticated compact geometric silhouette, editorial European financial-product design rather than real estate clip art. Dominant charcoal #1F1E1A house with one restrained terracotta #DC6B45 accent on the roof or check; all interiors either transparent negative space or this accent. Flat vector-like design. No gradients, shadows, textures, 3D, coins, currency signs, multiple objects, border container, tiny details. Must remain legible at 24px header size and 16px favicon. Genuine transparent background, square canvas, one centered mark occupying approximately 78% of canvas with even clear space. Do not render a checkerboard or any presentation board."
+    },
+    {
+      "id": "03-monogram",
+      "title": "TH 字母标",
+      "asset": "public/brand-concepts/03-monogram.png",
+      "prompt": "Use case: logo-brand. Asset type: compact website logo symbol for TakeHome, a Chinese net salary calculator. Create one original refined custom TH monogram logo, with T and H fused into a single unmistakable compact geometric glyph. Thick monoline strokes, softened square corners, a common top beam for the T and the H, H crossbar giving a subtle ledger/equality impression. The letter T is distinct on the left and H on the right, the shared construction should feel carefully designed, open and readable, avoid excessive overlaps. Quiet confident modern financial tool brand, editorial and timeless. Single-color terracotta #DC6B45. Flat vector-like crisp graphic, no gradients, shadows, textures, 3D, extra text, taglines, houses, wallets, arrows, coins, badges or container shape. Must read at 24px header size and 16px favicon. Genuine transparent background, square canvas, one centered monogram occupying approximately 78% of canvas with balanced clear space. No checkerboard or presentation board."
+    }
+  ]
+}

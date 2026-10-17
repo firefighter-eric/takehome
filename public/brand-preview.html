@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>TakeHome · 三款 Logo 提案</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="/brand/favicon.png" />
+    <style>
+      :root { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; color: #1f1e1a; background: #f7f5ef; font-synthesis: none; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+      button { font: inherit; cursor: pointer; }
+      button:focus-visible, a:focus-visible { outline: 3px solid #dc6b45; outline-offset: 4px; }
+      .review { max-width: 1440px; margin: auto; padding: 40px 40px 48px; }
+      .intro { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
+      .eyebrow { margin: 0 0 10px; color: #bd5636; font-size: 11px; font-weight: 750; letter-spacing: .15em; }
+      h1 { margin: 0; font-size: 30px; letter-spacing: -.04em; font-weight: 750; }
+      .intro p:last-child { color: #7a766e; font-size: 13px; line-height: 1.7; max-width: 330px; margin: 0; }
+      .concepts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+      .concept { min-width: 0; border: 1px solid #dfdad0; border-radius: 14px; background: #fffefa; overflow: hidden; }
+      .concept[data-selected="true"] { border-color: #dc6b45; box-shadow: 0 0 0 1px #dc6b45; }
+      .concept-top { padding: 20px 22px 0; display: flex; justify-content: space-between; align-items: center; }
+      .number { font-size: 11px; color: #7a766e; letter-spacing: .1em; font-weight: 650; }
+      .tag { color: #bd5636; font-size: 10px; background: #faeee8; padding: 4px 7px; border-radius: 4px; }
+      .hero { height: 178px; display: grid; place-items: center; }
+      .hero img { width: 140px; height: 140px; object-fit: contain; }
+      .card-body { padding: 0 22px 20px; }
+      h2 { font-size: 18px; margin: 0 0 7px; font-weight: 700; letter-spacing: -.02em; }
+      .description { min-height: 38px; margin: 0; font-size: 12px; color: #7a766e; line-height: 1.65; }
+      .lockup { margin: 18px 0 14px; padding: 16px 12px; background: #f7f5ef; border-radius: 7px; display: flex; align-items: center; gap: 8px; }
+      .lockup img { width: 30px; height: 30px; object-fit: contain; }
+      .wordmark { font-size: 24px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+      .sizes { display: flex; align-items: center; gap: 13px; height: 32px; margin-bottom: 16px; }
+      .sizes span { color: #7a766e; font-size: 10px; margin-right: auto; }
+      .sizes img { object-fit: contain; }
+      .preview-button { display: block; width: 100%; padding: 10px 12px; border: 1px solid #dfdad0; border-radius: 7px; background: #fffefa; color: #57544d; font-size: 12px; font-weight: 650; }
+      .preview-button[aria-pressed="true"] { color: #bd5636; background: #faeee8; border-color: #f0c7b7; }
+      .preview-section { margin-top: 34px; }
+      .preview-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 14px; }
+      .preview-heading h2 { font-size: 16px; margin: 0; }
+      .preview-heading p { color: #7a766e; font-size: 11px; margin: 6px 0 0; }
+      .devices { display: flex; gap: 3px; padding: 3px; border: 1px solid #dfdad0; border-radius: 7px; }
+      .devices button { border: 0; border-radius: 4px; background: transparent; color: #7a766e; font-size: 11px; padding: 6px 12px; }
+      .devices button[aria-pressed="true"] { color: #1f1e1a; background: #fffefa; box-shadow: 0 1px 3px #1f1e1a12; }
+      .frame-stage { display: flex; justify-content: center; overflow: auto; padding: 0; background: #eeeae1; border: 1px solid #dfdad0; border-radius: 10px; }
+      iframe { width: 100%; height: 650px; display: block; border: 0; background: #fffefa; flex: 0 0 auto; }
+      .frame-stage[data-device="mobile"] { padding: 20px 0; }
+      .frame-stage[data-device="mobile"] iframe { width: 390px; max-width: 100%; height: 720px; border-radius: 14px; box-shadow: 0 6px 20px #1f1e1a18; }
+      .footer { display: flex; justify-content: space-between; gap: 16px; font-size: 10px; color: #7a766e; margin: 18px 0 0; line-height: 1.7; }
+      .footer a { color: #bd5636; text-decoration: none; }
+      @media (max-width: 760px) {
+        .review { padding: 26px 18px; }
+        .intro { display: block; margin-bottom: 22px; }
+        h1 { font-size: 26px; }
+        .intro p:last-child { margin-top: 14px; max-width: none; }
+        .concepts { grid-template-columns: 1fr; gap: 16px; }
+        .hero { height: 150px; }
+        .hero img { width: 128px; height: 128px; }
+        .description { min-height: 0; }
+        .footer { display: block; }
+        .footer a { display: inline-block; margin-top: 8px; }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .concept, .preview-button { transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="review">
+      <header class="intro">
+        <div><p class="eyebrow">TAKEHOME / LOGO EXPLORATION</p><h1>三个方向，让「到手」有个符号。</h1></div>
+        <p>沿用页面的陶橙、炭黑与米白。<br />先看图形，再比较页眉组合与小尺寸效果。</p>
+      </header>
+      <section class="concepts" aria-label="三个 Logo 方案">
+        <article class="concept" data-selected="false" data-concept="01-pocket">
+          <div class="concept-top"><span class="number">01 / POCKET</span><span class="tag">直观友好</span></div>
+          <div class="hero"><img src="/brand-concepts/01-pocket.png" alt="方案一：向下的箭头进入橙色口袋" width="140" height="140" /></div>
+          <div class="card-body">
+            <h2>收入归袋</h2><p class="description">箭头落入口袋，把「真正到手的钱」<br />变成一个直接、友好的符号。</p>
+            <div class="lockup"><img src="/brand-concepts/01-pocket.png" alt="" width="30" height="30" /><span class="wordmark">TakeHome</span></div>
+            <div class="sizes"><span>小尺寸 · 16 / 24 / 32 px</span><img src="/brand-concepts/01-pocket.png" alt="16 像素预览" width="16" height="16" /><img src="/brand-concepts/01-pocket.png" alt="24 像素预览" width="24" height="24" /><img src="/brand-concepts/01-pocket.png" alt="32 像素预览" width="32" height="32" /></div>
+            <button class="preview-button" data-logo="01-pocket" aria-pressed="false">在网页中预览 · 收入归袋</button>
+          </div>
+        </article>
+        <article class="concept" data-selected="true" data-concept="02-home">
+          <div class="concept-top"><span class="number">02 / HOME</span><span class="tag">已选定</span></div>
+          <div class="hero"><img src="/brand-concepts/02-home.png" alt="方案二：屋形与确认勾结合的标志" width="140" height="140" /></div>
+          <div class="card-body">
+            <h2>安心到家</h2><p class="description">屋檐与确认勾呼应 TakeHome，<br />表达收入有数、生活有底。</p>
+            <div class="lockup"><img src="/brand-concepts/02-home.png" alt="" width="30" height="30" /><span class="wordmark">TakeHome</span></div>
+            <div class="sizes"><span>小尺寸 · 16 / 24 / 32 px</span><img src="/brand-concepts/02-home.png" alt="16 像素预览" width="16" height="16" /><img src="/brand-concepts/02-home.png" alt="24 像素预览" width="24" height="24" /><img src="/brand-concepts/02-home.png" alt="32 像素预览" width="32" height="32" /></div>
+            <button class="preview-button" data-logo="02-home" aria-pressed="true">正在预览 · 安心到家</button>
+          </div>
+        </article>
+        <article class="concept" data-selected="false" data-concept="03-monogram">
+          <div class="concept-top"><span class="number">03 / MONOGRAM</span><span class="tag">简洁品牌感</span></div>
+          <div class="hero"><img src="/brand-concepts/03-monogram.png" alt="方案三：T 与 H 共享横梁的橙色字母标" width="140" height="140" /></div>
+          <div class="card-body">
+            <h2>TH 字母标</h2><p class="description">用共享横梁连接 T 与 H，<br />更紧凑，也方便延展成应用图标。</p>
+            <div class="lockup"><img src="/brand-concepts/03-monogram.png" alt="" width="30" height="30" /><span class="wordmark">TakeHome</span></div>
+            <div class="sizes"><span>小尺寸 · 16 / 24 / 32 px</span><img src="/brand-concepts/03-monogram.png" alt="16 像素预览" width="16" height="16" /><img src="/brand-concepts/03-monogram.png" alt="24 像素预览" width="24" height="24" /><img src="/brand-concepts/03-monogram.png" alt="32 像素预览" width="32" height="32" /></div>
+            <button class="preview-button" data-logo="03-monogram" aria-pressed="false">在网页中预览 · TH 字母标</button>
+          </div>
+        </article>
+      </section>
+      <section class="preview-section" aria-label="实际网页中的 Logo 预览">
+        <div class="preview-heading"><div><h2>放进网页，看实际效果</h2><p id="active-caption" aria-live="polite">当前：02 · 安心到家</p></div><div class="devices" role="group" aria-label="预览设备"><button data-device="desktop" aria-pressed="true">桌面</button><button data-device="mobile" aria-pressed="false">手机</button></div></div>
+        <div class="frame-stage" data-device="desktop"><iframe src="/" title="TakeHome Logo 页面效果预览"></iframe></div>
+      </section>
+      <div class="footer"><span>已选定第二款「安心到家」· 正式页眉与浏览器图标已接入 · AI 生成的透明 PNG。</span><a href="/">返回工资计算器 ↗</a></div>
+    </main>
+    <script>
+      const concepts = { "01-pocket": "收入归袋", "02-home": "安心到家", "03-monogram": "TH 字母标" };
+      let selected = "02-home";
+      const frame = document.querySelector("iframe");
+      function applyLogo() {
+        const doc = frame.contentDocument;
+        const brand = doc?.querySelector(".brand");
+        if (!brand) return;
+        let icon = brand.querySelector(".brand-mark, [data-preview-logo]");
+        if (!icon) {
+          icon = doc.createElement("img");
+          icon.dataset.previewLogo = "true";
+          icon.alt = "";
+          icon.width = 32;
+          icon.height = 32;
+          brand.prepend(icon);
+          const style = doc.createElement("style");
+          style.textContent = ".brand{gap:10px}.brand img[data-preview-logo]{width:32px;height:32px;object-fit:contain;flex-shrink:0}@media(max-width:560px){.brand{gap:5px}.brand img[data-preview-logo]{width:26px;height:26px}.brand span{font-size:21px}}";
+          doc.head.append(style);
+        }
+        icon.src = "/brand-concepts/" + selected + ".png";
+      }
+      frame.addEventListener("load", applyLogo);
+      document.querySelectorAll("[data-logo]").forEach(button => {
+        button.addEventListener("click", () => {
+          selected = button.dataset.logo;
+          document.querySelectorAll("[data-logo]").forEach(item => {
+            const active = item.dataset.logo === selected;
+            item.setAttribute("aria-pressed", String(active));
+            item.textContent = (active ? "正在预览 · " : "在网页中预览 · ") + concepts[item.dataset.logo];
+          });
+          document.querySelectorAll(".concept").forEach(item => item.dataset.selected = String(item.dataset.concept === selected));
+          document.querySelector("#active-caption").textContent = "当前：" + selected.slice(0, 2) + " · " + concepts[selected];
+          applyLogo();
+        });
+      });
+      document.querySelectorAll(".devices button").forEach(button => {
+        button.addEventListener("click", () => {
+          document.querySelector(".frame-stage").dataset.device = button.dataset.device;
+          document.querySelectorAll(".devices button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        });
+      });
+    </script>
+  </body>
+</html>

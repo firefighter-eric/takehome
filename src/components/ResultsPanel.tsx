@@ -16,7 +16,7 @@ const summaryMoney = new Intl.NumberFormat("zh-CN", {
 });
 
 interface ResultsPanelProps {
-  result: SalaryResult;
+  result: SalaryResult | null;
   employerCost: {
     monthlySocialInsurance: number;
     monthlyHousingFund: number;
@@ -32,6 +32,14 @@ export function ResultsPanel({
   contributionDetails,
 }: ResultsPanelProps) {
   const [expanded, setExpanded] = useState(true);
+  if (!result) {
+    return (
+      <section className="results-panel" aria-labelledby="results-heading">
+        <h2 id="results-heading">计算结果</h2>
+        <p role="status">请先修正工资信息，计算结果会自动更新。</p>
+      </section>
+    );
+  }
   const visibleRows = expanded ? result.rows : result.rows.slice(0, COLLAPSED_VISIBLE_MONTHS);
   const hiddenCount = result.rows.length - visibleRows.length;
   const months = result.rows.length;
