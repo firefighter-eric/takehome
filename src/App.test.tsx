@@ -11,7 +11,17 @@ describe("App salary form", () => {
     expect(html).not.toContain("手动填写");
     expect(html).not.toContain("五险一金计算方式");
     expect(html).toContain("按城市规则自动估算");
-    expect(html).toContain('aria-label="个人公积金自动计算金额"');
+    expect(html).not.toContain('aria-label="个人公积金自动计算金额"');
+    expect(html).toContain('aria-label="个人公积金个人缴存比例"');
+    expect(html).toContain('aria-label="公司公积金缴存比例"');
+    expect(html).toContain("个人 12%");
+    expect(html).toContain("公司 12%");
+    expect(html).toContain("单个工作");
+    expect(html).toContain("工作对比");
+    expect(html).toContain(">个人养老金</button>");
+    expect(html).not.toContain('id="pension-heading"');
+    expect(html).toContain('aria-current="page">单个工作');
+    expect(html).not.toContain("对比两个工作");
     expect(html).toContain("重置");
     expect(html).toContain("计算结果");
     expect(html).toContain('aria-expanded="true"');
